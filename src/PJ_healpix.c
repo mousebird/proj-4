@@ -149,7 +149,7 @@ double standardize_lat(double x){
 static
 int pnpoly(int nvert, double vert[][2], double testx, double testy){
     
-    int i,j,c = 0;
+    int i,c = 0;
     int counter = 0;
     double xinters;
     Point p1,p2;
@@ -252,10 +252,10 @@ int in_image(double x, double y, int proj, int npole, int spole){
  **/
 double auth_lat(double phi, double e, int inverse){
     if(inverse == 0){
-	double q_numerator = ((1.0 - pow(e,2.0)) * sin(phi));
-	double q_demonitor =  (1.0 - (pow(e*sin(phi),2.0)));
-	double q_subtractor =  - (1.0 - pow(e,2.0)) / (2.0*e) * log((1.0 - e*sin(phi)) / (1.0+e*sin(phi)));
-	double q = ((1.0 - pow(e,2.0)) * sin(phi)) / (1.0 - (pow(e*sin(phi),2.0))) - 
+//	double q_numerator = ((1.0 - pow(e,2.0)) * sin(phi));
+//	double q_demonitor =  (1.0 - (pow(e*sin(phi),2.0)));
+//	double q_subtractor =  - (1.0 - pow(e,2.0)) / (2.0*e) * log((1.0 - e*sin(phi)) / (1.0+e*sin(phi)));
+	double q = ((1.0 - pow(e,2.0)) * sin(phi)) / (1.0 - (pow(e*sin(phi),2.0))) -
 	(1.0 - pow(e,2.0)) / (2.0*e) * log((1.0 - e*sin(phi)) / (1.0+e*sin(phi)));
 
 	double qp = 1.0 - (1.0-pow(e,2.0)) / (2.0*e)*log((1.0 - e) / (1.0 + e));
@@ -422,7 +422,7 @@ static CapMap get_cap(double x, double y, double R, int npole, int spole, int in
 	}
 	return capmap;
     }else{
-	double c;
+//	double c;
 	double eps;
 	if(y > R*PI/4.0){
 	    capmap.region = north;
@@ -531,7 +531,7 @@ static XY combine_caps(double x, double y, double R, int npole, int spole, int i
 	int pole = floor( (capmap.x + R*3.0*PI/4.0) / (R*PI/2.0));
 	double tmpVect[2] = {R*pole*PI/2.0,0};
 	double coord[2] = {x,y};
-	double (*tmpRot)[2];
+//	double (*tmpRot)[2];
 	int cn;
 	// translate polar square to position 0
 	vector_sub(coord,tmpVect,v);
@@ -558,6 +558,7 @@ static XY combine_caps(double x, double y, double R, int npole, int spole, int i
     }
 }
 FORWARD(e_healpix_forward); /* ellipsoidal */
+float makeWarningGoAway = xy.x;  makeWarningGoAway = 0.0;
     //int r1[][2] = R1;
     double bet = auth_lat(lp.phi, P->e, 0);
     lp.phi = bet;
@@ -565,10 +566,11 @@ FORWARD(e_healpix_forward); /* ellipsoidal */
     return healpix_sphere(lp,P);
 }
 FORWARD(s_healpix_forward); /* spheroid */
+float makeWarningGoAway = xy.x;  makeWarningGoAway = 0.0;
     return healpix_sphere(lp, P);
 }
 INVERSE(e_healpix_inverse); /* ellipsoidal */
-    double bet, x, y;
+    double x, y;
     P->a = P->ra;
 
     // Scale down to radius 1 sphere before checking x,y
