@@ -252,13 +252,15 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
     paralist *curr;
     int i;
     PJ *PIN = 0;
-    char *old_locale;
+    char *old_locale=NULL;
 
     ctx->last_errno = 0;
     start = NULL;
 
-    old_locale = strdup(setlocale(LC_NUMERIC, NULL));
-    if( strcmp(old_locale,"C") != 0 )
+    char *ret = setlocale(LC_NUMERIC, NULL);
+    if (ret)
+    	old_locale = strdup(ret);
+    if( !ret || strcmp(old_locale,"C") != 0 )
         setlocale(LC_NUMERIC,"C");
 
     /* put arguments into internal linked list */
@@ -468,7 +470,7 @@ pj_init_ctx(projCtx ctx, int argc, char **argv) {
         PIN = 0;
     }
 
-    if( strcmp(old_locale,"C") != 0 )
+    if( old_locale && strcmp(old_locale,"C") != 0 )
         setlocale(LC_NUMERIC,old_locale);
     free( (char*)old_locale );
 
