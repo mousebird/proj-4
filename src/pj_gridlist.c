@@ -180,7 +180,10 @@ PJ_GRIDINFO **pj_gridlist_from_nadgrids( projCtx ctx, const char *nadgrids,
     {
         int   end_char;
         int   required = 1;
-        char  name[128];
+
+        // Original hardcoded path of 128 chars is too small for iOS paths,
+        // which contain a large UUID as part of their path. 512 is sufficient.
+        char  name[512];
 
         if( *s == '@' )
         {
