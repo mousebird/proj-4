@@ -1,6 +1,4 @@
 /******************************************************************************
- * $Id: pj_gridlist.c 1990 2011-03-28 18:06:43Z warmerdam $
- *
  * Project:  PROJ.4
  * Purpose:  Code to manage the list of currently loaded (cached) PJ_GRIDINFOs
  *           See pj_gridinfo.c for details of loading individual grids.
@@ -45,6 +43,7 @@
 #endif /* _WIN32_WCE */
 
 static PJ_GRIDINFO *grid_list = NULL;
+#define PJ_MAX_PATH_LENGTH 1024
 
 /************************************************************************/
 /*                        pj_deallocate_grids()                         */
@@ -178,12 +177,9 @@ PJ_GRIDINFO **pj_gridlist_from_nadgrids( projCtx ctx, const char *nadgrids,
 /* -------------------------------------------------------------------- */
     for( s = nadgrids; *s != '\0'; )
     {
-        int   end_char;
-        int   required = 1;
-
-        // Original hardcoded path of 128 chars is too small for iOS paths,
-        // which contain a large UUID as part of their path. 512 is sufficient.
-        char  name[512];
+        size_t end_char;
+        int    required = 1;
+        char   name[PJ_MAX_PATH_LENGTH];
 
         if( *s == '@' )
         {

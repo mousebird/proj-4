@@ -1,8 +1,8 @@
-.\" @(#)geod.1 - 1.1
-.nr LL 5.5i
+.\" @(#)geod.1
+.nr LL 7.0i
 .ad b
 .hy 1
-.TH GEOD 1 "2000/03/21 Rel. 4.4" 
+.TH GEOD 1 "2016/02/16 Rel. 4.9.3"
 .SH NAME
 geod \- direct geodesic computations
 .br
@@ -30,22 +30,29 @@ file[s]
 ]
 file[s]
 .SH DESCRIPTION
-.I Geod
+.I geod
 (direct) and
 .I invgeod
 (inverse)
-perform geodesic (\(``Great Circle\('') computations for determining
+perform geodesic ("Great Circle") computations for determining
 latitude, longitude and back azimuth of a terminus point
 given a initial point latitude, longitude, azimuth and distance (direct) or
 the forward and back azimuths and distance between an initial and
-terminus point latitudes and longitudes (inverse).
+terminus point latitudes and longitudes (inverse).  The results are
+accurate to round off for |\fIf\fR| < 1/50, where \fIf\fR is flattening.
+.B invgeod
+may not be available on all platforms; in this case call
+.B geod
+with the
+.B \-I
+option.
 .PP
-The following runline control parameters can appear in any order:
+The following command-line options can appear in any order:
 .TP
 .B \-I
 Specifies that the inverse geodesic computation is to be performed.
 May be used with execution of
-.B goed
+.B geod
 as an alternative to
 .B invgeod
 execution.
@@ -89,17 +96,17 @@ is employed the fields will be constant width with leading zeroes.
 .TP
 .B \-p
 This option causes the azimuthal values to be output as unsigned
-DMS numbers between 0 and 360 degrees.  Also note -f.
+DMS numbers between 0 and 360 degrees.  Also note \-f.
 .PP
 The
 .B +args
-run-line arguments are associated with geodetic parameters
+command-line options are associated with geodetic parameters
 for specifying the ellipsoidal or sphere to use.
 See
 .B proj
 documentation for full list of these parameters and controls.
 The options are processed in left to right order
-from the run line.
+from the command line.
 Reentry of an option is ignored with the first occurrence assumed to
 be the desired value.
 .PP
@@ -119,12 +126,11 @@ input for the inverse mode and respective forward and back
 azimuth from the initial and terminus points are output along
 with the distance between the points.
 .PP
-Input geographic coordinates
-(latitude and longitude) and azimuthal data must be in DMS format and input
-distance data must be in units consistent with the ellipsoid
-major axis or sphere radius units.
-Output geographic coordinates will be in DMS
-(if the
+Input geographic coordinates (latitude and longitude) and azimuthal data
+must be in decimal degrees or DMS format and input distance data must be
+in units consistent with the ellipsoid major axis or sphere radius
+units.  The latitude must lie in the range [-90d,90d].  Output
+geographic coordinates will be in DMS (if the
 .B \-f
 switch is not employed) to 0.001"
 with trailing, zero-valued minute-second fields deleted.
@@ -171,15 +177,15 @@ and number of points to be determined.
 .RE
 .SH EXAMPLE
 The following script determines the geodesic azimuths and distance in
-U.S. stature miles from Boston, MA, to Portland, OR:
+U.S. statute miles from Boston, MA, to Portland, OR:
 .RS 5
- \f(CWgeod +ellps=clrk66 <<EOF -I +units=us-mi
+ \f(CWgeod +ellps=clrk66 <<EOF \-I +units=us\-mi
  42d15'N 71d07'W 45d31'N 123d41'W
  EOF\fR
 .RE
 which gives the results:
 .RS 5
- \f(CW-66d31'50.141"   75d39'13.083"   2587.504
+ \f(CW-66d31'50.141" 75d39'13.083" 2587.504
 .RE
 where the first two values are the
 azimuth from Boston to Portland, the back azimuth from Portland to
@@ -189,18 +195,34 @@ An example of forward geodesic use is to use the Boston location and determine
 Portland's location by azimuth and distance:
 .RS 5
  \f(CWgeod +ellps=clrk66 <<EOF +units=us-mi
- 42d15'N 71d07'W -66d31'50.141" 2587.504
+ 42d15'N 71d07'W \-66d31'50.141" 2587.504
  EOF\fR
 .RE
 which gives:
 .RS 5
- \f(CW45d31'0.003"N   123d40'59.985"W 75d39'13.094"\fR
+ \f(CW45d31'0.003"N 123d40'59.985"W 75d39'13.094"\fR
 .RE
 Note: lack of precision in the distance value compromises
 the precision of the Portland location.
 .SH SEE ALSO
-Thomas, P.D., 1970,
-.I "Spheroidal Geodesics, Reference Systems & Local Geometry:"
-U.S. Naval Oceanographic  Office, S-138.
+.B geodesic(3)
+.PP
+\fBGeographicLib\fR, http://geographiclib.sf.net
+.PP
+The \fBGeodSolve\fR utility in GeographicLib.  With the \fB-E\fR option,
+this solves the geodesic problems in terms of elliptic integrals; the
+results are accurate for arbitrary \fIf\fR.
+.PP
+C. F. F. Karney, \fIAlgorithms for Geodesics\fR,
+.br
+J. Geodesy \fB87\fR, 43-55 (2013);
+.br
+DOI: http://dx.doi.org/10.1007/s00190-012-0578-z
+.br
+http://geographiclib.sf.net/geod-addenda.html
+.PP
+The \fIonline geodesic bibliography\fR,
+.br
+http://geographiclib.sf.net/geodesic-papers/biblio.html
 .SH HOME PAGE
-http://www.remotesensing.org/proj
+https://github.com/OSGeo/proj.4/wiki

@@ -2,7 +2,7 @@
 .nr LL 5.5i
 .ad b
 .hy 1
-.TH PROJ 1 "2000/03/21 Rel. 4.4" 
+.TH CS2CS 1 "2000/03/21 Rel. 4.4" 
 .SH NAME
 cs2cs \- cartographic coordinate system filter
 .SH SYNOPSIS
@@ -116,7 +116,7 @@ The
 .B +args
 run-line arguments are associated with cartographic parameters
 and usage varies with projection and for a complete description see
-.I "Cartographic Projection Procedures for the UNIX Environment\(emA User's Manual" )
+.I "Cartographic Projection Procedures for the UNIX Environment\(emA User's Manual"
 and supplementary documentation for Release 4.
 .PP
 The \fIcs2cs\fR program requires two coordinate system definitions.  The
@@ -157,21 +157,21 @@ when both input and output are ASCII all trailing portions
 of the input line are appended to the output line.
 .PP
 Input geographic data
-(longitude and latitude) must be in DMS format and input
+(longitude and latitude) must be in DMS or decimal degrees format and input
 cartesian data must be in units consistent with the ellipsoid
 major axis or sphere radius units.
-Output geographic coordinates will be in DMS
-(if the
-.B \-w
-switch is not employed) and precise to 0.001"
-with trailing, zero-valued minute-second fields deleted.
+Output geographic coordinates will normally be in DMS format (use 
+.B \-f %.12f 
+for decimal degrees with 12 decimal places), while
+projected (cartesian) coordinates will be in linear (meter, feet) units.
+
 .SH EXAMPLE
 The following script
 .RS 5
  \f(CWcs2cs +proj=latlong +datum=NAD83 
-       +to +proj=utm +zone=10 +datum=NAD27 -r <<EOF
+       +to +proj=utm +zone=10 +datum=NAD27 \-r <<EOF
  45d15'33.1"	111.5W
- 45d15.551666667N	-111d30
+ 45d15.551666667N	\-111d30
  +45.25919444444	111d30'000w
  EOF\fR
 .RE
@@ -184,7 +184,7 @@ The x\-y output data will appear as three lines of:
  \f(CW1402285.99      5076292.42 0.000
 .RE
 .SH SEE ALSO
-.B proj(1U),
+.B proj(1),
 .br
 .I "Cartographic Projection Procedures for the UNIX Environment\(emA User's Manual,"
 (Evenden, 1990, Open-file report 90\-284).
@@ -199,4 +199,4 @@ USGS Bulletin 1532).
 .I "An Album of Map Projections"
 (Snyder & Voxland, 1989, USGS Prof. Paper 1453).
 .SH HOME PAGE
-http://www.remotesensing.org/proj
+https://github.com/OSGeo/proj.4/wiki
