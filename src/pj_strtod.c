@@ -80,7 +80,7 @@ static char* pj_replace_point_by_locale_point(const char* pszNumber, char point,
 #if defined(_MSC_VER)  /* Visual C++ */
 #pragma message("localeconv not available")
 #else
-#warning "localeconv not available"
+//#warning "localeconv not available"
 #endif
 
     static char byPoint = 0;
