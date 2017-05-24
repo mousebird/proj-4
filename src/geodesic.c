@@ -1810,7 +1810,7 @@ void geod_polygon_addpoint(const struct geod_geodesic* g,
     p->lat0 = p->lat = lat;
     p->lon0 = p->lon = lon;
   } else {
-    real s12, S12;
+    real s12, S12 = 0.0;
     geod_geninverse(g, p->lat, p->lon, lat, lon,
                     &s12, 0, 0, 0, 0, 0, p->polyline ? 0 : &S12);
     accadd(p->P, s12);
@@ -1827,7 +1827,7 @@ void geod_polygon_addedge(const struct geod_geodesic* g,
                           struct geod_polygon* p,
                           real azi, real s) {
   if (p->num) {                 /* Do nothing is num is zero */
-    real lat, lon, S12;
+    real lat, lon, S12 = 0.0;
     geod_gendirect(g, p->lat, p->lon, azi, GEOD_LONG_UNROLL, s,
                    &lat, &lon, 0,
                    0, 0, 0, 0, p->polyline ? 0 : &S12);
@@ -1902,7 +1902,7 @@ unsigned geod_polygon_testpoint(const struct geod_geodesic* g,
   tempsum = p->polyline ? 0 : p->A[0];
   crossings = p->crossings;
   for (i = 0; i < (p->polyline ? 1 : 2); ++i) {
-    real s12, S12;
+    real s12 = 0.0, S12 = 0.0;
     geod_geninverse(g,
                     i == 0 ? p->lat  : lat, i == 0 ? p->lon  : lon,
                     i != 0 ? p->lat0 : lat, i != 0 ? p->lon0 : lon,

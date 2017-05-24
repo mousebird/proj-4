@@ -133,7 +133,7 @@ oblcon:
 	return (xy);
 }
 INVERSE(e_guam_inv); /* Guam elliptical */
-	double x2, t;
+	double x2, t = 0.0;
 	int i;
 
 	x2 = 0.5 * xy.x * xy.x;

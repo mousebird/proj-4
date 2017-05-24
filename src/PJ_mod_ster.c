@@ -34,7 +34,7 @@ FORWARD(e_forward); /* ellipsoid */
 INVERSE(e_inverse); /* ellipsoid */
 	int nn;
 	COMPLEX p, fxy, fpxy, dp;
-	double den, rh, z, sinz, cosz, chi, phi, dphi, esphi;
+	double den = 0.0, rh = 0.0, z = 0.0, sinz = 0.0, cosz = 0.0, chi = 0.0, phi = 0.0, dphi = 0.0, esphi = 0.0;
 
 	p.r = xy.x;
 	p.i = xy.y;

@@ -31,8 +31,8 @@ seraz0(double lam, double mult, PJ *P) {
 }
 FORWARD(e_forward); /* ellipsoid */
     int l, nn;
-    double lamt, xlam, sdsq, c, d, s, lamdp, phidp, lampp, tanph,
-		lamtp, cl, sd, sp, fac, sav, tanphi;
+    double lamt = 0.0, xlam = 0.0, sdsq = 0.0, c = 0.0, d = 0.0, s = 0.0, lamdp = 0.0, phidp = 0.0, lampp = 0.0, tanph = 0.0,
+		lamtp = 0.0, cl = 0.0, sd = 0.0, sp = 0.0, fac = 0.0, sav = 0.0, tanphi = 0.0;
 
 	if (lp.phi > HALFPI)
 	    lp.phi = HALFPI;

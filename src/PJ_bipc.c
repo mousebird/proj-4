@@ -82,7 +82,7 @@ FORWARD(s_forward); /* spheroid */
 	return (xy);
 }
 INVERSE(s_inverse); /* spheroid */
-	double t, r, rp, rl, al, z, fAz, Az, s, c, Av;
+	double t, r, rp, rl, al, z = 0, fAz, Az, s, c, Av;
 	int neg, i;
 
 	if (P->noskew) {
