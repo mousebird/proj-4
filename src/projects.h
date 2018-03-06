@@ -484,7 +484,7 @@ int pj_apply_gridshift_3( projCtx ctx,
                           double *x, double *y, double *z );
 
 PJ_GRIDINFO **pj_gridlist_from_nadgrids( projCtx, const char *, int * );
-void pj_deallocate_grids();
+void pj_deallocate_grids(void);
 
 PJ_GRIDINFO *pj_gridinfo_init( projCtx, const char * );
 int pj_gridinfo_load( projCtx, PJ_GRIDINFO * );
